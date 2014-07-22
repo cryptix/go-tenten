@@ -31,6 +31,6 @@ func BenchmarkEncode(b *testing.B) {
 
 func BenchmarkEncodeSlow(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		EncodeSlow(53.563823, 10.005327)
+		encodeSlow(53.563823, 10.005327)
 	}
 }

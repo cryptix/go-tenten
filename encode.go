@@ -58,13 +58,13 @@ func Encode(lat, lon float64) string {
 	return string(tt[:])
 }
 
-// EncodeSlow is just there for comparison, it's what i started with
+// encodeSlow is just there for comparison, it's what i started with
 // basicly a copy&paste of the js code and than replacing Math.floor with math.Floor
 //
 // what i learned:
 // 	- math.Mod() added per call ~1300ns/op
 // 	- string concat is massivly costly
-func EncodeSlow(lat, lon float64) (tt string) {
+func encodeSlow(lat, lon float64) (tt string) {
 	lat += 90.0
 	lon += 180.0
 
