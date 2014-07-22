@@ -1,4 +1,4 @@
-// package tenten implements the 10:10 code purposed by john graham-cumming
+// package tenten implements "a coding system for entering any location on earth with 10m of accuracy using a 10 character code that includes features to prevent errors in entering the code." - purposed by john graham-cumming
 //
 // reference:
 //	http://blog.jgc.org/2010/06/1010-code.html?
