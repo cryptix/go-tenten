@@ -37,7 +37,7 @@ func Encode(lat, lon float64) string {
 		p = float64(0 | int(p/base))
 	}
 
-	c %= 29
+	c %= base
 	ttNum += float64(c)
 	ttNum = float64(0 | int(ttNum))
 
@@ -83,7 +83,7 @@ func encodeSlow(lat, lon float64) (tt string) {
 		p = math.Floor(p / base)
 	}
 
-	c %= 29
+	c %= base
 	ttNum += float64(c)
 	ttNum = math.Floor(ttNum)
 
