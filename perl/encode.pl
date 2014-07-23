@@ -21,8 +21,6 @@ my $p = $lat * 3600000 + $lon;
 
 my $soc_num = $p * $base;
 
-my @primes = ( 2, 3, 5, 7, 11, 13, 17, 23, 29, 31, 37 );
-
 my $c = 0;
 
 for (my $i = 1; $i < 10; $i++) {

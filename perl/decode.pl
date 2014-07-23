@@ -2,24 +2,26 @@
 use strict;
 
 if ( $#ARGV != 0 ) {
-    die "Usage: from-soc <10-digit-soc>";
+    die "Usage: from-soc <12-digit-soc>";
 }
 
 my $soc = uc($ARGV[0]);
-$soc =~ tr/IOSZ/1052/;
+$soc =~ s/ //g;
 
-my $alphabet = 'ABCDEFGHJKLMNPQRTUVWXY0123456789';
+my $alpha = 'ABCDEFGHJKMNPQRVWXY0123456789';
+my $base = length($alpha);
 
 my $soc_num = 0;
 
 foreach my $letter (split(//, $soc)) {
-    $soc_num *= 32;
-    $alphabet =~ /(.*)$letter/;
+    $soc_num *= $base;
+    $alpha =~ /(.*)$letter/;
     $soc_num += length($1);
+    print $soc_num . "\n";
 }
 
-my $p = int($soc_num / 128);
-my $check = $soc_num % 128;
+my $p = int($soc_num / $base);
+my $check = $soc_num % $base;
 
 my $lon = $p % 3600000;
 my $lat = int($p / 3600000);
@@ -30,19 +32,18 @@ $lon /= 10000;
 $lat -= 90;
 $lon -= 180;
 
-my @primes = ( 2, 3, 5, 7, 11, 13, 17, 23, 29, 31, 37 );
 
 my $c = 0;
 
-foreach my $prime (@primes) {
-    $c += ($p % 32) * $prime;
-    $p = int($p / 32);
+for (my $i = 1; $i < 10; $i++) {
+    $c += ($p % $base) * $i;
+    $p = int($p / $base);
 }
 
-$c %= 127;
+$c %= $base;
 
 if ( $check != $c ) {
-    die "Incorrect SOC";
+    die "Incorrect SOC - got $check wanted $c";
 } else {
     print "$lat $lon\n";
 }
