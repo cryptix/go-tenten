@@ -1,26 +1,29 @@
 package tenten
 
-import (
-	// "fmt"
-	"errors"
-	"strings"
+import "errors"
+
+var (
+	// ErrMalformedTT is returned if the 10:10 code is to short or missing spaces
+	ErrMalformedTT = errors.New("10:10 code is to short or missing spaces")
+
+	// ErrCorruptTT is returned if the 10:10 checksum is incorrect
+	ErrCorruptTT = errors.New("10:10 checksum is incorrect")
 )
 
-// ErrIncorrectTT is returned if an incorrect 10:10 code is incorrect
-var ErrIncorrectTT = errors.New("Incorrect TT")
+var decodeAlpha = map[rune]int{'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'J': 8, 'K': 9, 'M': 10, 'N': 11, 'P': 12, 'Q': 13, 'R': 14, 'V': 15, 'W': 16, 'X': 17, 'Y': 18, '0': 19, '1': 20, '2': 21, '3': 22, '4': 23, '5': 24, '6': 25, '7': 26, '8': 27, '9': 28}
 
 // Decode takes a 12 charachter string and converts them to latitude and longditude
 func Decode(tt string) (lat, lon float64, err error) {
-	if len(tt) != 12 {
-		return 0, 0, ErrIncorrectTT
+	if len(tt) != 12 || tt[3] != ' ' || tt[7] != ' ' {
+		return 0, 0, ErrMalformedTT
 	}
 
-	tt = strings.Replace(tt, " ", "", 2)
+	tt = tt[:3] + tt[4:7] + tt[8:]
 
 	var ttNum int
 	for _, l := range tt {
 		ttNum *= base
-		if idx := strings.Index(alphabet, string(l)); idx > 0 {
+		if idx, ok := decodeAlpha[l]; ok {
 			ttNum += idx
 		}
 	}
@@ -49,7 +52,7 @@ func Decode(tt string) (lat, lon float64, err error) {
 	c %= base
 
 	if c != check {
-		return 0, 0, ErrIncorrectTT
+		return 0, 0, ErrCorruptTT
 	}
 
 	return

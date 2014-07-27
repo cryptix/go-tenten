@@ -33,14 +33,20 @@ func TestDecode(t *testing.T) {
 	}
 
 	_, _, err := Decode("")
-	if err != ErrIncorrectTT {
+	if err != ErrMalformedTT {
 		t.Fatal("Should return ErrIncorrectTT")
 	}
 
 	_, _, err = Decode("000000000000")
-	if err != ErrIncorrectTT {
+	if err != ErrMalformedTT {
 		t.Fatal("Should return ErrIncorrectTT")
 	}
+
+	_, _, err = Decode("HF1 GNP 6229")
+	if err != ErrCorruptTT {
+		t.Fatal("Should return ErrIncorrectTT")
+	}
+
 }
 
 func TestEncode(t *testing.T) {
