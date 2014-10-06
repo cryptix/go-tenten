@@ -1,6 +1,7 @@
 go-tenten
 =========
 [![GoDoc](https://godoc.org/github.com/cryptix/go-tenten?status.svg)](https://godoc.org/github.com/cryptix/go-tenten)
+[![Build Status](https://travis-ci.org/cryptix/go-tenten.png?branch=master)](https://travis-ci.org/cryptix/go-tenten)
 
 package tenten implements
 
